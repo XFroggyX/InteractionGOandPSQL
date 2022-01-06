@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
 	"flag"
+	_ "github.com/jackc/pgx"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"log"
 	"net/http"
 	"os"
@@ -16,10 +19,19 @@ type application struct {
 func main() {
 	port := flag.String("port", "4000", "Сетевой порт")
 	host := flag.String("addr", "127.0.0.1", "Сетевой адрес")
+	dbUrl := flag.String("db", "postgres://admin:admin@localhost:5432/Countries",
+		"Название Postgresql базы данных")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+
+	ctx := context.Background()
+	db, err := openDB(ctx, *dbUrl)
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+	defer db.Close()
 
 	app := &application{
 		errorLog: errorLog,
@@ -33,8 +45,22 @@ func main() {
 	}
 
 	infoLog.Println("Server address: http://" + *host + ":" + *port)
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	errorLog.Fatal(err)
+}
+
+func openDB(ctx context.Context, dbUrl string) (*pgxpool.Pool, error) {
+	dbPool, err := pgxpool.Connect(ctx, dbUrl)
+	if err != nil {
+		return nil, err
+	}
+
+	err = dbPool.Ping(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return dbPool, nil
 }
 
 type customizableFileSystem struct {
