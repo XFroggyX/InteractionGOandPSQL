@@ -1,17 +1,21 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 )
 
-const (
-	host = "127.0.0.1"
-	port = "4000"
-)
-
 func main() {
+	port := flag.String("port", "4000", "Сетевой порт")
+	host := flag.String("addr", "127.0.0.1", "Сетевой адрес")
+	flag.Parse()
+
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/table", showTable)
@@ -21,9 +25,15 @@ func main() {
 	mux.Handle("/static", http.NotFoundHandler())
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
-	log.Println("Server address: http://" + host + ":" + port)
-	err := http.ListenAndServe(host+":"+port, mux)
-	log.Fatal(err)
+	srv := &http.Server{
+		Addr:     *host + ":" + *port,
+		ErrorLog: errorLog,
+		Handler:  mux,
+	}
+
+	infoLog.Println("Server address: http://" + *host + ":" + *port)
+	err := srv.ListenAndServe()
+	errorLog.Fatal(err)
 }
 
 type customizableFileSystem struct {
