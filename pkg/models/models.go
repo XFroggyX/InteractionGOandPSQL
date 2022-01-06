@@ -9,7 +9,7 @@ type Countries struct {
 	CountriesName    string
 	Flag             string
 	ReligionID       int
-	LanguagesId      int
+	LanguagesID      int
 	GovernmentFormID int
 	TerritorySizeID  int
 }

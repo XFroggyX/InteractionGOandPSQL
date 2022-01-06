@@ -49,8 +49,30 @@ func (app *application) insertTable(writer http.ResponseWriter, request *http.Re
 		app.clientError(writer, http.StatusMethodNotAllowed)
 		return
 	}
-	_, err := writer.Write([]byte("Insert page"))
+
+	var (
+		CountriesName    string = "Польша"
+		Flag             string = ""
+		ReligionID       int    = 2
+		LanguagesId      int    = 1
+		GovernmentFormID int    = 1
+		TerritorySizeID  int    = 1
+	)
+
+	_, err := app.countries.Insert(app.ctx, CountriesName, Flag, ReligionID, LanguagesId, GovernmentFormID, TerritorySizeID)
 	if err != nil {
-		app.errorLog.Println(err)
+		app.serverError(writer, err)
+		return
 	}
+
+	/*
+		strt, err := app.countries.Get(app.ctx)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+		for _, el := range strt {
+			fmt.Fprintln(writer, el)
+		}
+	*/
 }

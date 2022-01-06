@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"flag"
-	_ "github.com/XFroggyX/InteractionGOandPSQL/pkg/models/postgresql"
+	"github.com/XFroggyX/InteractionGOandPSQL/pkg/models/postgresql"
 	_ "github.com/jackc/pgx"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"log"
@@ -15,6 +15,7 @@ import (
 type application struct {
 	errorLog  *log.Logger
 	infoLog   *log.Logger
+	ctx       context.Context
 	countries *postgresql.CountriesModel
 }
 
@@ -36,8 +37,10 @@ func main() {
 	defer db.Close()
 
 	app := &application{
-		errorLog: errorLog,
-		infoLog:  infoLog,
+		errorLog:  errorLog,
+		infoLog:   infoLog,
+		ctx:       ctx,
+		countries: &postgresql.CountriesModel{DB: db},
 	}
 
 	srv := &http.Server{
