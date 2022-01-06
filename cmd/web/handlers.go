@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"text/template"
 )
 
-func home(writer http.ResponseWriter, request *http.Request) {
+func (app *application) home(writer http.ResponseWriter, request *http.Request) {
 	if request.URL.Path != "/" {
-		http.NotFound(writer, request)
+		app.notFound(writer)
 		return
 	}
 
@@ -20,40 +19,38 @@ func home(writer http.ResponseWriter, request *http.Request) {
 
 	ts, err := template.ParseFiles(files...)
 	if err != nil {
-		log.Println(err.Error())
-		http.Error(writer, "Internal Server Error", 500)
+		app.serverError(writer, err)
 		return
 	}
 
 	err = ts.Execute(writer, nil)
 	if err != nil {
-		log.Println(err.Error())
-		http.Error(writer, "Internal Server, Error", 500)
+		app.serverError(writer, err)
 	}
 }
 
-func showTable(writer http.ResponseWriter, request *http.Request) {
+func (app *application) showTable(writer http.ResponseWriter, request *http.Request) {
 	tableName := request.URL.Query().Get("name")
 	if tableName == "" {
-		http.NotFound(writer, request)
+		app.notFound(writer)
 		return
 	}
 
 	// writer.Header().Set("Content-Type", "application/json")
 	_, err := fmt.Fprintf(writer, "Отображение выбранной таблицы с NAME %s...", tableName)
 	if err != nil {
-		log.Fatal(err)
+		app.errorLog.Println(err)
 	}
 }
 
-func insertTable(writer http.ResponseWriter, request *http.Request) {
+func (app *application) insertTable(writer http.ResponseWriter, request *http.Request) {
 	if request.Method != http.MethodPost {
 		writer.Header().Set("Allow", http.MethodPost)
-		http.Error(writer, "Метод запрещен", 405)
+		app.clientError(writer, http.StatusMethodNotAllowed)
 		return
 	}
 	_, err := writer.Write([]byte("Insert page"))
 	if err != nil {
-		log.Fatal(err)
+		app.errorLog.Println(err)
 	}
 }

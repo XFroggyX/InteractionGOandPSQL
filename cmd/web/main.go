@@ -8,6 +8,11 @@ import (
 	"path/filepath"
 )
 
+type application struct {
+	errorLog *log.Logger
+	infoLog  *log.Logger
+}
+
 func main() {
 	port := flag.String("port", "4000", "Сетевой порт")
 	host := flag.String("addr", "127.0.0.1", "Сетевой адрес")
@@ -16,10 +21,15 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
+	app := application{
+		errorLog: errorLog,
+		infoLog:  infoLog,
+	}
+
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/table", showTable)
-	mux.HandleFunc("/table/insert", insertTable)
+	mux.HandleFunc("/", app.home)
+	mux.HandleFunc("/table", app.showTable)
+	mux.HandleFunc("/table/insert", app.insertTable)
 
 	fileServer := http.FileServer(customizableFileSystem{http.Dir("./static/")})
 	mux.Handle("/static", http.NotFoundHandler())
