@@ -21,24 +21,15 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	app := application{
+	app := &application{
 		errorLog: errorLog,
 		infoLog:  infoLog,
 	}
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", app.home)
-	mux.HandleFunc("/table", app.showTable)
-	mux.HandleFunc("/table/insert", app.insertTable)
-
-	fileServer := http.FileServer(customizableFileSystem{http.Dir("./static/")})
-	mux.Handle("/static", http.NotFoundHandler())
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-
 	srv := &http.Server{
 		Addr:     *host + ":" + *port,
 		ErrorLog: errorLog,
-		Handler:  mux,
+		Handler:  app.routes(),
 	}
 
 	infoLog.Println("Server address: http://" + *host + ":" + *port)
