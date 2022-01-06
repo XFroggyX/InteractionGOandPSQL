@@ -16,6 +16,9 @@ func main() {
 	mux.HandleFunc("/table", showTable)
 	mux.HandleFunc("/table/insert", insertTable)
 
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
+
 	log.Println("Server address: http://" + host + ":" + port)
 	err := http.ListenAndServe(host+":"+port, mux)
 	log.Fatal(err)
