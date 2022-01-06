@@ -1,0 +1,21 @@
+{{define "base"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Мои страны - {{template "title" .}}</title>
+    </head>
+    <body>
+    <header>
+        <h1><a href="/">Основная инормация о моих страах</a></h1>
+        <nav>
+            <a href="/">Домашняя страница</a>
+        </nav>
+    </header>
+    <main>
+        {{template "main" .}}
+    </main>
+        {{template "footer" .}}
+    </body>
+    </html>
+{{end}}
