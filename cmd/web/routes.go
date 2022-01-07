@@ -7,6 +7,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/", app.home)
 	mux.HandleFunc("/table", app.showTable)
 	mux.HandleFunc("/table/insert", app.insertTable)
+	mux.HandleFunc("/table/update", app.updateTable)
 
 	fileServer := http.FileServer(customizableFileSystem{http.Dir("./static/")})
 	mux.Handle("/static", http.NotFoundHandler())
