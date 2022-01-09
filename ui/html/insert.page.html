@@ -1,0 +1,212 @@
+{{define "insertBar"}}
+    {{if eq .NameBD "Countries"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="CountriesName">
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="Flag">
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="ReligionID">
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="LanguagesID">
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="GovernmentFormID">
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="TerritorySizeID">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{else if eq .NameBD "Languages"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="Language">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{else if eq .NameBD "GovernmentForms"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="Form">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{else if eq .NameBD "TerritorySizes"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="Type">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{else if eq .NameBD "Religions"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="Title">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{else if eq .NameBD "Associations"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="Title">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{else if eq .NameBD "AssociationsOfCountries"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="CountriesID">
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="AssociationsID">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{else if eq .NameBD "Сontinents"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="Name">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{else if eq .NameBD "СontinentsOfCountries"}}
+        <form class="row gy-2 gx-3 align-items-center">
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeSelect">Preference</label>
+                <select class="form-select" id="specificSizeSelect">
+                    <option selected>Choose...</option>
+                    <option value="1">INPUT</option>
+                    <option value="2">UPDATE</option>
+                </select>
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="CountriesID">
+            </div>
+            <div class="col-sm-7">
+                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                <input type="text" class="form-control" id="specificSizeInputName" placeholder="ContinentsID">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-sm-7">
+            </div>
+        </form>
+    {{end}}
+{{end}}
+

@@ -31,6 +31,7 @@ func (app *application) home(writer http.ResponseWriter, request *http.Request) 
 		"./ui/html/index.page.html",
 		"./ui/html/base.layout.html",
 		"./ui/html/content.page.html",
+		"./ui/html/insert.page.html",
 	}
 
 	model := app.listTables["Countries"].(postgresql.CountriesModel)
@@ -64,6 +65,7 @@ func (app *application) showTable(writer http.ResponseWriter, request *http.Requ
 		"./ui/html/index.page.html",
 		"./ui/html/base.layout.html",
 		"./ui/html/content.page.html",
+		"./ui/html/insert.page.html",
 	}
 
 	data := &templateData{TabletNames: models.TabletNames}
@@ -148,22 +150,6 @@ func (app *application) showTable(writer http.ResponseWriter, request *http.Requ
 		data.BD = table
 		data.NamesField = model.NameField()
 		data.NameBD = "Religions"
-	} else if tableName == "Languages" {
-		model := app.listTables["Languages"].(postgresql.LanguagesModel)
-
-		table, err := model.Get(app.ctx)
-		if err != nil {
-			if errors.Is(err, models.ErrNoRecord) {
-				app.notFound(writer)
-			} else {
-				app.serverError(writer, err)
-			}
-			return
-		}
-
-		data.BD = table
-		data.NamesField = model.NameField()
-		data.NameBD = "Languages"
 	} else if tableName == "Associations" {
 		model := app.listTables["Associations"].(postgresql.AssociationsModel)
 
