@@ -35,7 +35,7 @@ func (m *CountriesModel) Get(ctx context.Context) ([]model.Countries, error) {
 	}
 	defer rows.Close()
 
-	var courses []model.Countries
+	var storage []model.Countries
 	for rows.Next() {
 		var c model.Countries
 		values, err := rows.Values()
@@ -58,13 +58,13 @@ func (m *CountriesModel) Get(ctx context.Context) ([]model.Countries, error) {
 		c.GovernmentFormID = int(values[5].(int16))
 		c.TerritorySizeID = int(values[6].(int16))
 
-		courses = append(courses, c)
+		storage = append(storage, c)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 
-	return courses, nil
+	return storage, nil
 }
 
 func (m *CountriesModel) Update(ctx context.Context, id int, nameFields string,

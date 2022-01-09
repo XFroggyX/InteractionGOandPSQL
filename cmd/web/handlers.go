@@ -4,15 +4,30 @@ import (
 	"errors"
 	"fmt"
 	"github.com/XFroggyX/InteractionGOandPSQL/pkg/models"
+	"html/template"
 	"net/http"
 	"strconv"
-	"text/template"
 )
 
 func (app *application) home(writer http.ResponseWriter, request *http.Request) {
 	if request.URL.Path != "/" {
 		app.notFound(writer)
 		return
+	}
+
+	list, err := app.countries.Get(app.ctx)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecord) {
+			app.notFound(writer)
+		} else {
+			app.serverError(writer, err)
+		}
+		return
+	}
+
+	data := &templateData{
+		BD:          list,
+		TabletNames: models.TabletNames,
 	}
 
 	files := []string{
@@ -25,8 +40,7 @@ func (app *application) home(writer http.ResponseWriter, request *http.Request) 
 		app.serverError(writer, err)
 		return
 	}
-
-	err = ts.Execute(writer, nil)
+	err = ts.Execute(writer, data)
 	if err != nil {
 		app.serverError(writer, err)
 	}
@@ -40,7 +54,7 @@ func (app *application) showTable(writer http.ResponseWriter, request *http.Requ
 	}
 
 	if tableName == "countries" {
-		listCountries, err := app.countries.Get(app.ctx)
+		list, err := app.countries.Get(app.ctx)
 		if err != nil {
 			if errors.Is(err, models.ErrNoRecord) {
 				app.notFound(writer)
@@ -50,12 +64,24 @@ func (app *application) showTable(writer http.ResponseWriter, request *http.Requ
 			return
 		}
 
-		for _, el := range listCountries {
-			_, err := fmt.Fprintln(writer, el)
-			if err != nil {
-				app.serverError(writer, err)
-				return
-			}
+		data := &templateData{
+			BD:          list,
+			TabletNames: models.TabletNames,
+		}
+
+		files := []string{
+			"./ui/html/index.page.html",
+			"./ui/html/base.layout.html",
+		}
+
+		ts, err := template.ParseFiles(files...)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+		err = ts.Execute(writer, data)
+		if err != nil {
+			app.serverError(writer, err)
 		}
 	} else {
 		_, err := fmt.Fprintf(writer, "Отображение выбранной таблицы с NAME %s...", tableName)
@@ -63,13 +89,6 @@ func (app *application) showTable(writer http.ResponseWriter, request *http.Requ
 			app.errorLog.Println(err)
 		}
 	}
-
-	/* writer.Header().Set("Content-Type", "application/json")
-	_, err := fmt.Fprintf(writer, "Отображение выбранной таблицы с NAME %s...", tableName)
-	if err != nil {
-		app.errorLog.Println(err)
-	}
-	*/
 }
 
 func (app *application) insertTable(writer http.ResponseWriter, request *http.Request) {
