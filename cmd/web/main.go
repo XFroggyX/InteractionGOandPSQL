@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/XFroggyX/InteractionGOandPSQL/pkg/models/postgresql"
+	postgresql "github.com/XFroggyX/InteractionGOandPSQL/pkg/models/postgre"
 	_ "github.com/jackc/pgx"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"log"
@@ -13,10 +13,10 @@ import (
 )
 
 type application struct {
-	errorLog  *log.Logger
-	infoLog   *log.Logger
-	ctx       context.Context
-	countries *postgresql.CountriesModel
+	errorLog   *log.Logger
+	infoLog    *log.Logger
+	ctx        context.Context
+	listTables map[string]interface{}
 }
 
 func main() {
@@ -36,11 +36,23 @@ func main() {
 	}
 	defer db.Close()
 
+	listTables := make(map[string]interface{})
+
+	listTables["Countries"] = postgresql.CountriesModel{DB: db}
+	listTables["Languages"] = postgresql.LanguagesModel{DB: db}
+	listTables["GovernmentForms"] = postgresql.GovernmentFormsModel{DB: db}
+	listTables["TerritorySizes"] = postgresql.TerritorySizesModel{DB: db}
+	listTables["Religions"] = postgresql.ReligionsModel{DB: db}
+	listTables["Associations"] = postgresql.AssociationsModel{DB: db}
+	listTables["AssociationsOfCountries"] = postgresql.AssociationsOfCountriesModel{DB: db}
+	listTables["Сontinents"] = postgresql.СontinentsModel{DB: db}
+	listTables["СontinentsOfCountries"] = postgresql.СontinentsOfCountriesModel{DB: db}
+
 	app := &application{
-		errorLog:  errorLog,
-		infoLog:   infoLog,
-		ctx:       ctx,
-		countries: &postgresql.CountriesModel{DB: db},
+		errorLog:   errorLog,
+		infoLog:    infoLog,
+		ctx:        ctx,
+		listTables: listTables,
 	}
 
 	srv := &http.Server{

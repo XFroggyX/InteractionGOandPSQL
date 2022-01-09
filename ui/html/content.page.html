@@ -1,0 +1,71 @@
+{{define "content"}}
+    {{if eq .NameBD "Countries"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.CountriesName}}</td>
+                <td>{{.Flag}}</td>
+                <td>{{.ReligionID}}</td>
+                <td>{{.LanguagesID}}</td>
+                <td>{{.GovernmentFormID}}</td>
+                <td>{{.TerritorySizeID}}</td>
+            </tr>
+        {{end}}
+    {{else if eq .NameBD "Languages"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.Language}}</td>
+            </tr>
+        {{end}}
+    {{else if eq .NameBD "GovernmentForms"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.Form}}</td>
+            </tr>
+        {{end}}
+    {{else if eq .NameBD "TerritorySizes"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.Type}}</td>
+            </tr>
+        {{end}}
+    {{else if eq .NameBD "Religions"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.Title}}</td>
+            </tr>
+        {{end}}
+    {{else if eq .NameBD "Associations"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.Title}}</td>
+            </tr>
+        {{end}}{{else if eq .NameBD "AssociationsOfCountries"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.CountriesID}}</td>
+                <td>{{.AssociationsID}}</td>
+            </tr>
+        {{end}}
+    {{else if eq .NameBD "Сontinents"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.Name}}</td>
+            </tr>
+        {{end}}
+    {{else if eq .NameBD "СontinentsOfCountries"}}
+        {{range .BD}}
+            <tr>
+                <td>{{.CountriesID}}</td>
+                <td>{{.ContinentsID}}</td>
+            </tr>
+        {{end}}
+    {{end}}
+{{end}}
+

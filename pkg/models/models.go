@@ -3,6 +3,7 @@ package models
 import "errors"
 
 var ErrNoRecord = errors.New("models: подходящей записи не найдено")
+
 var TabletNames = []string{
 	"Countries",
 	"Languages",

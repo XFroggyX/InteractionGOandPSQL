@@ -12,6 +12,10 @@ type TerritorySizesModel struct {
 	DB *pgxpool.Pool
 }
 
+func (m *TerritorySizesModel) NameField() []string {
+	return []string{"ID", "Type"}
+}
+
 func (m *TerritorySizesModel) Get(ctx context.Context) ([]model.TerritorySizes, error) {
 	stmp := `SELECT * FROM TerritorySizes`
 	rows, err := m.DB.Query(ctx, stmp)
@@ -31,7 +35,7 @@ func (m *TerritorySizesModel) Get(ctx context.Context) ([]model.TerritorySizes, 
 			return nil, err
 		}
 
-		c.ID = int(values[0].(int32))
+		c.ID = int(values[0].(int16))
 		c.Type = values[1].(string)
 
 		storage = append(storage, c)

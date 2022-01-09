@@ -2,39 +2,14 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"github.com/XFroggyX/InteractionGOandPSQL/pkg/models"
+	postgresql "github.com/XFroggyX/InteractionGOandPSQL/pkg/models/postgre"
 	"html/template"
 	"net/http"
 	"strconv"
 )
 
-func (app *application) home(writer http.ResponseWriter, request *http.Request) {
-	if request.URL.Path != "/" {
-		app.notFound(writer)
-		return
-	}
-
-	list, err := app.countries.Get(app.ctx)
-	if err != nil {
-		if errors.Is(err, models.ErrNoRecord) {
-			app.notFound(writer)
-		} else {
-			app.serverError(writer, err)
-		}
-		return
-	}
-
-	data := &templateData{
-		BD:          list,
-		TabletNames: models.TabletNames,
-	}
-
-	files := []string{
-		"./ui/html/index.page.html",
-		"./ui/html/base.layout.html",
-	}
-
+func (app *application) createPage(data *templateData, files []string, writer http.ResponseWriter) {
 	ts, err := template.ParseFiles(files...)
 	if err != nil {
 		app.serverError(writer, err)
@@ -46,6 +21,38 @@ func (app *application) home(writer http.ResponseWriter, request *http.Request) 
 	}
 }
 
+func (app *application) home(writer http.ResponseWriter, request *http.Request) {
+	if request.URL.Path != "/" {
+		app.notFound(writer)
+		return
+	}
+
+	files := []string{
+		"./ui/html/index.page.html",
+		"./ui/html/base.layout.html",
+		"./ui/html/content.page.html",
+	}
+
+	model := app.listTables["Countries"].(postgresql.CountriesModel)
+	list, err := model.Get(app.ctx)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecord) {
+			app.notFound(writer)
+		} else {
+			app.serverError(writer, err)
+		}
+		return
+	}
+	data := &templateData{
+		BD:          list,
+		TabletNames: models.TabletNames,
+		NamesField:  model.NameField(),
+		NameBD:      "Countries",
+	}
+
+	app.createPage(data, files, writer)
+}
+
 func (app *application) showTable(writer http.ResponseWriter, request *http.Request) {
 	tableName := request.URL.Query().Get("name")
 	if tableName == "" {
@@ -53,8 +60,18 @@ func (app *application) showTable(writer http.ResponseWriter, request *http.Requ
 		return
 	}
 
-	if tableName == "countries" {
-		list, err := app.countries.Get(app.ctx)
+	files := []string{
+		"./ui/html/index.page.html",
+		"./ui/html/base.layout.html",
+		"./ui/html/content.page.html",
+	}
+
+	data := &templateData{TabletNames: models.TabletNames}
+
+	if tableName == "Countries" {
+		model := app.listTables["Countries"].(postgresql.CountriesModel)
+
+		table, err := model.Get(app.ctx)
 		if err != nil {
 			if errors.Is(err, models.ErrNoRecord) {
 				app.notFound(writer)
@@ -64,31 +81,158 @@ func (app *application) showTable(writer http.ResponseWriter, request *http.Requ
 			return
 		}
 
-		data := &templateData{
-			BD:          list,
-			TabletNames: models.TabletNames,
-		}
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "Countries"
+	} else if tableName == "Languages" {
+		model := app.listTables["Languages"].(postgresql.LanguagesModel)
 
-		files := []string{
-			"./ui/html/index.page.html",
-			"./ui/html/base.layout.html",
-		}
-
-		ts, err := template.ParseFiles(files...)
+		table, err := model.Get(app.ctx)
 		if err != nil {
-			app.serverError(writer, err)
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
 			return
 		}
-		err = ts.Execute(writer, data)
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "Languages"
+	} else if tableName == "GovernmentForms" {
+		model := app.listTables["GovernmentForms"].(postgresql.GovernmentFormsModel)
+
+		table, err := model.Get(app.ctx)
 		if err != nil {
-			app.serverError(writer, err)
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
+			return
 		}
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "GovernmentForms"
+	} else if tableName == "TerritorySizes" {
+		model := app.listTables["TerritorySizes"].(postgresql.TerritorySizesModel)
+
+		table, err := model.Get(app.ctx)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
+			return
+		}
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "TerritorySizes"
+	} else if tableName == "Religions" {
+		model := app.listTables["Religions"].(postgresql.ReligionsModel)
+
+		table, err := model.Get(app.ctx)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
+			return
+		}
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "Religions"
+	} else if tableName == "Languages" {
+		model := app.listTables["Languages"].(postgresql.LanguagesModel)
+
+		table, err := model.Get(app.ctx)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
+			return
+		}
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "Languages"
+	} else if tableName == "Associations" {
+		model := app.listTables["Associations"].(postgresql.AssociationsModel)
+
+		table, err := model.Get(app.ctx)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
+			return
+		}
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "Associations"
+	} else if tableName == "AssociationsOfCountries" {
+		model := app.listTables["AssociationsOfCountries"].(postgresql.AssociationsOfCountriesModel)
+
+		table, err := model.Get(app.ctx)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
+			return
+		}
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "AssociationsOfCountries"
+	} else if tableName == "Сontinents" {
+		model := app.listTables["Сontinents"].(postgresql.СontinentsModel)
+
+		table, err := model.Get(app.ctx)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
+			return
+		}
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "Сontinents"
+	} else if tableName == "СontinentsOfCountries" {
+		model := app.listTables["СontinentsOfCountries"].(postgresql.СontinentsOfCountriesModel)
+
+		table, err := model.Get(app.ctx)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.notFound(writer)
+			} else {
+				app.serverError(writer, err)
+			}
+			return
+		}
+
+		data.BD = table
+		data.NamesField = model.NameField()
+		data.NameBD = "СontinentsOfCountries"
 	} else {
-		_, err := fmt.Fprintf(writer, "Отображение выбранной таблицы с NAME %s...", tableName)
-		if err != nil {
-			app.errorLog.Println(err)
-		}
+		app.notFound(writer)
 	}
+
+	app.createPage(data, files, writer)
 }
 
 func (app *application) insertTable(writer http.ResponseWriter, request *http.Request) {
@@ -106,7 +250,8 @@ func (app *application) insertTable(writer http.ResponseWriter, request *http.Re
 		GovernmentFormID = 1
 		TerritorySizeID  = 1
 	)
-	err := app.countries.Insert(app.ctx, CountriesName, Flag, ReligionID, LanguagesID, GovernmentFormID, TerritorySizeID)
+	model := app.listTables["Countries"].(postgresql.CountriesModel)
+	err := model.Insert(app.ctx, CountriesName, Flag, ReligionID, LanguagesID, GovernmentFormID, TerritorySizeID)
 	if err != nil {
 		app.serverError(writer, err)
 		return
@@ -123,14 +268,15 @@ func (app *application) updateTable(writer http.ResponseWriter, request *http.Re
 		return
 	}
 
-	if tableName == "countries" {
+	if tableName == "Countries" {
 		convertUserID, err := strconv.Atoi(userID)
 		if err != nil {
 			app.serverError(writer, err)
 			return
 		}
 
-		err = app.countries.Update(app.ctx, convertUserID, nameFields, tableValue)
+		model := app.listTables["Countries"].(postgresql.CountriesModel)
+		err = model.Update(app.ctx, convertUserID, nameFields, tableValue)
 		if err != nil {
 			app.serverError(writer, err)
 			return

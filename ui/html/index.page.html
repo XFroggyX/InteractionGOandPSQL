@@ -9,30 +9,16 @@
             <table class="table table-striped table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">CountriesName</th>
-                    <th scope="col">Flag</th>
-                    <th scope="col">ReligionID</th>
-                    <th scope="col">LanguagesID</th>
-                    <th scope="col">GovernmentFormID</th>
-                    <th scope="col">TerritorySizeID</th>
+                    {{range .NamesField}}
+                    <th scope="col">{{ . }}</th>
+                    {{end}}
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    {{range .BD}}
                     <tr>
-                        <td>{{.ID}}</td>
-                        <td>{{.CountriesName}}</td>
-                        <td>{{.Flag}}</td>
-                        <td>{{.ReligionID}}</td>
-                        <td>{{.LanguagesID}}</td>
-                        <td>{{.GovernmentFormID}}</td>
-                        <td>{{.TerritorySizeID}}</td>
+                        {{template "content" .}}
                     </tr>
-                    {{ else }}
-                        Нет данных!
-                    {{ end }}
                 </tr>
                 </tbody>
             </table>

@@ -8,21 +8,25 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-type ReligionsModel struct {
+type AssociationsModel struct {
 	DB *pgxpool.Pool
 }
 
-func (m *ReligionsModel) Get(ctx context.Context) ([]model.Religions, error) {
-	stmp := `SELECT * FROM Religions`
+func (m *AssociationsModel) NameField() []string {
+	return []string{"ID", "Title"}
+}
+
+func (m *AssociationsModel) Get(ctx context.Context) ([]model.Associations, error) {
+	stmp := `SELECT * FROM Associations`
 	rows, err := m.DB.Query(ctx, stmp)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var storage []model.Religions
+	var storage []model.Associations
 	for rows.Next() {
-		var c model.Religions
+		var c model.Associations
 		values, err := rows.Values()
 		if err != nil {
 			if errors.Is(err, sql.ErrNoRows) {

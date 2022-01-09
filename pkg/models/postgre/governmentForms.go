@@ -12,6 +12,10 @@ type GovernmentFormsModel struct {
 	DB *pgxpool.Pool
 }
 
+func (m *GovernmentFormsModel) NameField() []string {
+	return []string{"ID", "Form"}
+}
+
 func (m *GovernmentFormsModel) Get(ctx context.Context) ([]model.GovernmentForms, error) {
 	stmp := `SELECT * FROM GovernmentForms`
 	rows, err := m.DB.Query(ctx, stmp)
@@ -31,7 +35,7 @@ func (m *GovernmentFormsModel) Get(ctx context.Context) ([]model.GovernmentForms
 			return nil, err
 		}
 
-		c.ID = int(values[0].(int32))
+		c.ID = int(values[0].(int16))
 		c.Form = values[1].(string)
 
 		storage = append(storage, c)

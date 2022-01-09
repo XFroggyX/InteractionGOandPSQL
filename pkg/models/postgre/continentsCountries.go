@@ -8,21 +8,25 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-type LanguagesModel struct {
+type СontinentsOfCountriesModel struct {
 	DB *pgxpool.Pool
 }
 
-func (m *LanguagesModel) Get(ctx context.Context) ([]model.Languages, error) {
-	stmp := `SELECT * FROM languages`
+func (m *СontinentsOfCountriesModel) NameField() []string {
+	return []string{"CountriesID", "ContinentsID"}
+}
+
+func (m *СontinentsOfCountriesModel) Get(ctx context.Context) ([]model.СontinentsOfCountries, error) {
+	stmp := `SELECT * FROM СontinentsOfCountries`
 	rows, err := m.DB.Query(ctx, stmp)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var storage []model.Languages
+	var storage []model.СontinentsOfCountries
 	for rows.Next() {
-		var c model.Languages
+		var c model.СontinentsOfCountries
 		values, err := rows.Values()
 		if err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
@@ -31,8 +35,8 @@ func (m *LanguagesModel) Get(ctx context.Context) ([]model.Languages, error) {
 			return nil, err
 		}
 
-		c.ID = int(values[0].(int32))
-		c.Language = values[1].(string)
+		c.CountriesID = int(values[0].(int32))
+		c.ContinentsID = int(values[1].(int32))
 
 		storage = append(storage, c)
 	}

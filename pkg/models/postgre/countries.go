@@ -13,6 +13,10 @@ type CountriesModel struct {
 	DB *pgxpool.Pool
 }
 
+func (m *CountriesModel) NameField() []string {
+	return []string{"ID", "CountriesName", "Flag", "ReligionID", "LanguagesID", "GovernmentFormID", "TerritorySizeID"}
+}
+
 func (m *CountriesModel) Insert(ctx context.Context, countriesName string, flag string, religionID int, languagesID int,
 	governmentFormID int, territorySizeID int) error {
 	stmp := `INSERT INTO Countries (CountriesName, Flag, ReligionID, LanguagesID, GovernmentFormID, TerritorySizeID) 
