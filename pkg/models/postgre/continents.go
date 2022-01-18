@@ -17,7 +17,7 @@ func (m *СontinentsModel) NameField() []string {
 }
 
 func (m *СontinentsModel) Get(ctx context.Context) ([]model.Сontinents, error) {
-	stmp := `SELECT * FROM TerritorySizes`
+	stmp := `SELECT * FROM Сontinents`
 	rows, err := m.DB.Query(ctx, stmp)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (m *СontinentsModel) Get(ctx context.Context) ([]model.Сontinents, error)
 			return nil, err
 		}
 
-		c.ID = int(values[0].(int16))
+		c.ID = int(values[0].(int32))
 		c.Name = values[1].(string)
 
 		storage = append(storage, c)

@@ -2,9 +2,11 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"github.com/XFroggyX/InteractionGOandPSQL/pkg/models"
 	postgresql "github.com/XFroggyX/InteractionGOandPSQL/pkg/models/postgre"
 	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -54,8 +56,10 @@ func (app *application) home(writer http.ResponseWriter, request *http.Request) 
 	app.createPage(data, files, writer)
 }
 
+var tableName = ""
+
 func (app *application) showTable(writer http.ResponseWriter, request *http.Request) {
-	tableName := request.URL.Query().Get("name")
+	tableName = request.URL.Query().Get("name")
 	if tableName == "" {
 		app.notFound(writer)
 		return
@@ -228,20 +232,27 @@ func (app *application) insertTable(writer http.ResponseWriter, request *http.Re
 		return
 	}
 
-	var (
-		CountriesName    = "Польша"
-		Flag             = ""
-		ReligionID       = 2
-		LanguagesID      = 1
-		GovernmentFormID = 1
-		TerritorySizeID  = 1
-	)
-	model := app.listTables["Countries"].(postgresql.CountriesModel)
-	err := model.Insert(app.ctx, CountriesName, Flag, ReligionID, LanguagesID, GovernmentFormID, TerritorySizeID)
+	err := request.ParseForm()
 	if err != nil {
 		app.serverError(writer, err)
 		return
 	}
+	log.Println(request.Form)
+
+	params := request.Form
+
+	fmt.Printf("POST json: CountriesName=%s, Flag=%s, ReligionID=%s, LanguagesID=%s, GovernmentFormID=%s, "+
+		"TerritorySizeID=%s\n", params["CountriesName"], params["Flag"], params["ReligionID"], params["LanguagesID"],
+		params["GovernmentFormID"], params["TerritorySizeID"])
+
+	fmt.Fprintf(writer, `{"code":0}`)
+
+	// model := app.listTables["Countries"].(postgresql.CountriesModel)
+	//err := model.Insert(app.ctx, CountriesName, Flag, ReligionID, LanguagesID, GovernmentFormID, TerritorySizeID)
+	//if err != nil {
+	//	app.serverError(writer, err)
+	//	return
+	//}
 }
 
 func (app *application) updateTable(writer http.ResponseWriter, request *http.Request) {
