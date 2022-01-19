@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	model "github.com/XFroggyX/InteractionGOandPSQL/pkg/models"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
@@ -55,5 +56,30 @@ func (m *СontinentsOfCountriesModel) Insert(ctx context.Context, countriesID, c
 		return err
 	}
 
+	return nil
+}
+
+func (m *СontinentsOfCountriesModel) Delete(ctx context.Context, id int) error {
+	stmp := `DELETE FROM Сontinentsofcountries WHERE countriesID = $1`
+	_, err := m.DB.Exec(ctx, stmp, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return model.ErrNoRecord
+		}
+		return err
+	}
+	return nil
+}
+
+func (m *СontinentsOfCountriesModel) Update(ctx context.Context, id int, nameFields string, value string) error {
+	stmp := fmt.Sprintf(`UPDATE Сontinentsofcountries SET %s = `, nameFields)
+	stmp = stmp + `$1 WHERE id = $2`
+	_, err := m.DB.Exec(ctx, stmp, value, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return model.ErrNoRecord
+		}
+		return err
+	}
 	return nil
 }

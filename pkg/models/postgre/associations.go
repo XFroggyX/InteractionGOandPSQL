@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	model "github.com/XFroggyX/InteractionGOandPSQL/pkg/models"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
@@ -56,5 +57,30 @@ func (m *AssociationsModel) Insert(ctx context.Context, title string) error {
 		return err
 	}
 
+	return nil
+}
+
+func (m *AssociationsModel) Delete(ctx context.Context, id int) error {
+	stmp := `DELETE FROM Associations WHERE id = $1`
+	_, err := m.DB.Exec(ctx, stmp, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return model.ErrNoRecord
+		}
+		return err
+	}
+	return nil
+}
+
+func (m *AssociationsModel) Update(ctx context.Context, id int, nameFields string, value string) error {
+	stmp := fmt.Sprintf(`UPDATE Associations SET %s = `, nameFields)
+	stmp = stmp + `$1 WHERE id = $2`
+	_, err := m.DB.Exec(ctx, stmp, value, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return model.ErrNoRecord
+		}
+		return err
+	}
 	return nil
 }

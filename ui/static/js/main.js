@@ -1,14 +1,3 @@
-function deleteItem(TableName) {
-    let ID;
-    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
-        ID = document.getElementById("ID").value
-
-        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
-        xhr.open("POST", '/table/delete', true);
-    }
-}
-
-
 function editTableCountries() {
     let CountriesName;
     let Flag;
@@ -34,7 +23,31 @@ function editTableCountries() {
             encodeURIComponent(GovernmentFormID) + "&TerritorySizeID=" + encodeURIComponent(TerritorySizeID)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        ID = document.getElementById("ID").value
+        CountriesName = document.getElementById("CountriesName").value
+        Flag = document.getElementById("Flag").value
+        ReligionID = document.getElementById("ReligionID").value
+        LanguagesID = document.getElementById("LanguagesID").value
+        GovernmentFormID = document.getElementById("GovernmentFormID").value
+        TerritorySizeID = document.getElementById("TerritorySizeID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&CountriesName=" +
+            encodeURIComponent(CountriesName) + "&Flag=" + encodeURIComponent(Flag) + "&ReligionID=" +
+            encodeURIComponent(ReligionID) + "&LanguagesID=" + encodeURIComponent(LanguagesID) + "&GovernmentFormID=" +
+            encodeURIComponent(GovernmentFormID) + "&TerritorySizeID=" + encodeURIComponent(TerritorySizeID)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -54,7 +67,23 @@ function editTableLanguages() {
         data = "TableName=" + TableName + "&Language=" + encodeURIComponent(Language)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        Language = document.getElementById("Language").value
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&Language=" + encodeURIComponent(Language)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -74,7 +103,23 @@ function editTableGovernmentForms() {
         data = "TableName=" + TableName + "&Form=" + encodeURIComponent(Form)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        ID = document.getElementById("ID").value
+        Form = document.getElementById("Form").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&Form=" + encodeURIComponent(Form)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -94,7 +139,23 @@ function editTableTerritorySizes() {
         data = "TableName=" + TableName + "&Type=" + encodeURIComponent(Type)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        ID = document.getElementById("ID").value
+        Type = document.getElementById("Type").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&Type=" + encodeURIComponent(Type)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -113,7 +174,23 @@ function editTableReligions() {
         data = "TableName=" + TableName + "&Title=" + encodeURIComponent(Title)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        ID = document.getElementById("ID").value
+        Title = document.getElementById("Title").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&Title=" + encodeURIComponent(Title)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -133,7 +210,23 @@ function editTableAssociations() {
         data = "TableName=" + TableName + "&Title=" + encodeURIComponent(Title)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        ID = document.getElementById("ID").value
+        Title = document.getElementById("Title").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&Title=" + encodeURIComponent(Title)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -156,7 +249,25 @@ function editTableAssociationsOfCountries() {
             encodeURIComponent(AssociationsID)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        ID = document.getElementById("ID").value
+        CountriesID = document.getElementById("CountriesID").value
+        AssociationsID = document.getElementById("AssociationsID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&CountriesID=" +
+            encodeURIComponent(CountriesID) + "&AssociationsID=" + encodeURIComponent(AssociationsID)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -176,7 +287,23 @@ function editTableContinents() {
         data = "TableName=" + TableName + "&Name=" + encodeURIComponent(Name)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        ID = document.getElementById("ID").value
+        Name = document.getElementById("Name").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&Name=" + encodeURIComponent(Name)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -199,7 +326,25 @@ function editTableContinentsOfCountries() {
             encodeURIComponent(ContinentsID)
         xhr.open("POST", '/table/insert', true);
     }
-    deleteItem(TableName);
+
+    let ID;
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 2) {
+        ID = document.getElementById("ID").value
+        CountriesID = document.getElementById("CountriesID").value
+        ContinentsID = document.getElementById("ContinentsID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID) + "&CountriesID=" +
+            encodeURIComponent(CountriesID) + "&ContinentsID=" + encodeURIComponent(ContinentsID)
+        xhr.open("POST", '/table/update', true);
+    }
+
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);

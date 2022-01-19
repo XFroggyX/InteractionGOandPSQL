@@ -71,11 +71,22 @@ func (m *CountriesModel) Get(ctx context.Context) ([]model.Countries, error) {
 	return storage, nil
 }
 
-func (m *CountriesModel) Update(ctx context.Context, id int, nameFields string,
-	value string) error {
+func (m *CountriesModel) Update(ctx context.Context, id int, nameFields string, value string) error {
 	stmp := fmt.Sprintf(`UPDATE Countries SET %s = `, nameFields)
 	stmp = stmp + `$1 WHERE id = $2`
 	_, err := m.DB.Exec(ctx, stmp, value, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return model.ErrNoRecord
+		}
+		return err
+	}
+	return nil
+}
+
+func (m *CountriesModel) Delete(ctx context.Context, id int) error {
+	stmp := `DELETE FROM Countries WHERE id = $1`
+	_, err := m.DB.Exec(ctx, stmp, id)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return model.ErrNoRecord
