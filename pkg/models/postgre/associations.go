@@ -46,3 +46,15 @@ func (m *AssociationsModel) Get(ctx context.Context) ([]model.Associations, erro
 
 	return storage, nil
 }
+
+func (m *AssociationsModel) Insert(ctx context.Context, title string) error {
+	stmp := `INSERT INTO Associations (Title) 
+	VALUES ($1)`
+
+	_, err := m.DB.Exec(ctx, stmp, title)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

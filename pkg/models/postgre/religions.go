@@ -46,3 +46,15 @@ func (m *ReligionsModel) Get(ctx context.Context) ([]model.Religions, error) {
 
 	return storage, nil
 }
+
+func (m *ReligionsModel) Insert(ctx context.Context, title string) error {
+	stmp := `INSERT INTO Religions (title) 
+	VALUES ($1)`
+
+	_, err := m.DB.Exec(ctx, stmp, title)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

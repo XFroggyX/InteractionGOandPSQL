@@ -46,3 +46,15 @@ func (m *LanguagesModel) Get(ctx context.Context) ([]model.Languages, error) {
 
 	return storage, nil
 }
+
+func (m *LanguagesModel) Insert(ctx context.Context, language string) error {
+	stmp := `INSERT INTO Languages (Language) 
+	VALUES ($1)`
+
+	_, err := m.DB.Exec(ctx, stmp, language)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

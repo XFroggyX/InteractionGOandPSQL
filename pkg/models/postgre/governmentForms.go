@@ -46,3 +46,15 @@ func (m *GovernmentFormsModel) Get(ctx context.Context) ([]model.GovernmentForms
 
 	return storage, nil
 }
+
+func (m *GovernmentFormsModel) Insert(ctx context.Context, form string) error {
+	stmp := `INSERT INTO GovernmentForms (Form) 
+	VALUES ($1)`
+
+	_, err := m.DB.Exec(ctx, stmp, form)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

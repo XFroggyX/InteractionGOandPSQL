@@ -46,3 +46,15 @@ func (m *AssociationsOfCountriesModel) Get(ctx context.Context) ([]model.Associa
 
 	return storage, nil
 }
+
+func (m *AssociationsOfCountriesModel) Insert(ctx context.Context, countriesID, associationsID int) error {
+	stmp := `INSERT INTO AssociationsOfCountries (countriesID, associationsID) 
+	VALUES ($1, $2)`
+
+	_, err := m.DB.Exec(ctx, stmp, countriesID, associationsID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -1,3 +1,14 @@
+function deleteItem(TableName) {
+    let ID;
+    if (document.getElementById("specificSizeSelect").options.selectedIndex === 3) {
+        ID = document.getElementById("ID").value
+
+        data = "TableName=" + TableName + "&ID=" + encodeURIComponent(ID)
+        xhr.open("POST", '/table/delete', true);
+    }
+}
+
+
 function editTableCountries() {
     let CountriesName;
     let Flag;
@@ -23,6 +34,7 @@ function editTableCountries() {
             encodeURIComponent(GovernmentFormID) + "&TerritorySizeID=" + encodeURIComponent(TerritorySizeID)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
 
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
@@ -42,6 +54,8 @@ function editTableLanguages() {
         data = "TableName=" + TableName + "&Language=" + encodeURIComponent(Language)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
+
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 
@@ -60,6 +74,8 @@ function editTableGovernmentForms() {
         data = "TableName=" + TableName + "&Form=" + encodeURIComponent(Form)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
+
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 
@@ -78,6 +94,8 @@ function editTableTerritorySizes() {
         data = "TableName=" + TableName + "&Type=" + encodeURIComponent(Type)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
+
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 
@@ -95,6 +113,8 @@ function editTableReligions() {
         data = "TableName=" + TableName + "&Title=" + encodeURIComponent(Title)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
+
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 
@@ -113,6 +133,8 @@ function editTableAssociations() {
         data = "TableName=" + TableName + "&Title=" + encodeURIComponent(Title)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
+
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 
@@ -134,6 +156,8 @@ function editTableAssociationsOfCountries() {
             encodeURIComponent(AssociationsID)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
+
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 
@@ -144,7 +168,7 @@ function editTableContinents() {
     let Name;
 
     let data;
-    let TableName = "Continents";
+    let TableName = "Сontinents";
     const xhr = new XMLHttpRequest();
     if (document.getElementById("specificSizeSelect").options.selectedIndex === 1) {
         Name = document.getElementById("Name").value
@@ -152,6 +176,8 @@ function editTableContinents() {
         data = "TableName=" + TableName + "&Name=" + encodeURIComponent(Name)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
+
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 
@@ -173,6 +199,8 @@ function editTableContinentsOfCountries() {
             encodeURIComponent(ContinentsID)
         xhr.open("POST", '/table/insert', true);
     }
+    deleteItem(TableName);
+
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(data);
 

@@ -46,3 +46,15 @@ func (m *TerritorySizesModel) Get(ctx context.Context) ([]model.TerritorySizes, 
 
 	return storage, nil
 }
+
+func (m *TerritorySizesModel) Insert(ctx context.Context, type_ string) error {
+	stmp := `INSERT INTO TerritorySizes (type) 
+	VALUES ($1)`
+
+	_, err := m.DB.Exec(ctx, stmp, type_)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

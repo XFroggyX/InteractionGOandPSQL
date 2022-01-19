@@ -2,11 +2,9 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"github.com/XFroggyX/InteractionGOandPSQL/pkg/models"
 	postgresql "github.com/XFroggyX/InteractionGOandPSQL/pkg/models/postgre"
 	"html/template"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -237,22 +235,125 @@ func (app *application) insertTable(writer http.ResponseWriter, request *http.Re
 		app.serverError(writer, err)
 		return
 	}
-	log.Println(request.Form)
 
-	params := request.Form
+	newItem := request.Form
 
-	fmt.Printf("POST json: CountriesName=%s, Flag=%s, ReligionID=%s, LanguagesID=%s, GovernmentFormID=%s, "+
-		"TerritorySizeID=%s\n", params["CountriesName"], params["Flag"], params["ReligionID"], params["LanguagesID"],
-		params["GovernmentFormID"], params["TerritorySizeID"])
+	tableName := newItem["TableName"][0]
 
-	fmt.Fprintf(writer, `{"code":0}`)
+	if tableName == "Countries" {
+		model := app.listTables["Countries"].(postgresql.CountriesModel)
+		countriesName := newItem["CountriesName"][0]
+		flag := newItem["Flag"][0]
 
-	// model := app.listTables["Countries"].(postgresql.CountriesModel)
-	//err := model.Insert(app.ctx, CountriesName, Flag, ReligionID, LanguagesID, GovernmentFormID, TerritorySizeID)
-	//if err != nil {
-	//	app.serverError(writer, err)
-	//	return
-	//}
+		religionID, err := strconv.Atoi(newItem["ReligionID"][0])
+		if err != nil {
+			app.serverError(writer, err)
+		}
+
+		languagesID, err := strconv.Atoi(newItem["LanguagesID"][0])
+		if err != nil {
+			app.serverError(writer, err)
+		}
+
+		governmentFormID, err := strconv.Atoi(newItem["GovernmentFormID"][0])
+		territorySizeID, err := strconv.Atoi(newItem["TerritorySizeID"][0])
+
+		err = model.Insert(app.ctx, countriesName, flag, religionID, languagesID, governmentFormID, territorySizeID)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else if tableName == "Languages" {
+		model := app.listTables["Languages"].(postgresql.LanguagesModel)
+		language := newItem["Language"][0]
+
+		err = model.Insert(app.ctx, language)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else if tableName == "GovernmentForms" {
+		model := app.listTables["GovernmentForms"].(postgresql.GovernmentFormsModel)
+		form := newItem["Form"][0]
+
+		err = model.Insert(app.ctx, form)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else if tableName == "TerritorySizes" {
+		model := app.listTables["TerritorySizes"].(postgresql.TerritorySizesModel)
+		type_ := newItem["Type"][0]
+
+		err = model.Insert(app.ctx, type_)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else if tableName == "Religions" {
+		model := app.listTables["Religions"].(postgresql.ReligionsModel)
+		title := newItem["Title"][0]
+
+		err = model.Insert(app.ctx, title)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else if tableName == "Associations" {
+		model := app.listTables["Associations"].(postgresql.AssociationsModel)
+		title := newItem["Title"][0]
+
+		err = model.Insert(app.ctx, title)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else if tableName == "AssociationsOfCountries" {
+		model := app.listTables["AssociationsOfCountries"].(postgresql.AssociationsOfCountriesModel)
+		countriesID, err := strconv.Atoi(newItem["CountriesID"][0])
+		if err != nil {
+			app.serverError(writer, err)
+		}
+		associationsID, err := strconv.Atoi(newItem["AssociationsID"][0])
+		if err != nil {
+			app.serverError(writer, err)
+		}
+
+		err = model.Insert(app.ctx, countriesID, associationsID)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else if tableName == "Continents" {
+		model := app.listTables["Сontinents"].(postgresql.СontinentsModel)
+		name := newItem["Name"][0]
+
+		err = model.Insert(app.ctx, name)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else if tableName == "СontinentsOfCountries" {
+		model := app.listTables["СontinentsOfCountries"].(postgresql.СontinentsOfCountriesModel)
+		countriesID, err := strconv.Atoi(newItem["CountriesID"][0])
+		if err != nil {
+			app.serverError(writer, err)
+		}
+
+		continentsID, err := strconv.Atoi(newItem["ContinentsID"][0])
+		if err != nil {
+			app.serverError(writer, err)
+		}
+
+		err = model.Insert(app.ctx, countriesID, continentsID)
+		if err != nil {
+			app.serverError(writer, err)
+			return
+		}
+	} else {
+		app.notFound(writer)
+	}
+
 }
 
 func (app *application) updateTable(writer http.ResponseWriter, request *http.Request) {
@@ -279,4 +380,8 @@ func (app *application) updateTable(writer http.ResponseWriter, request *http.Re
 			return
 		}
 	}
+}
+
+func (app *application) deleteTable(writer http.ResponseWriter, request *http.Request) {
+
 }

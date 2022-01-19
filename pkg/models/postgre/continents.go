@@ -46,3 +46,15 @@ func (m *СontinentsModel) Get(ctx context.Context) ([]model.Сontinents, error)
 
 	return storage, nil
 }
+
+func (m *СontinentsModel) Insert(ctx context.Context, name string) error {
+	stmp := `INSERT INTO Сontinents (Name) 
+	VALUES ($1)`
+
+	_, err := m.DB.Exec(ctx, stmp, name)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
